@@ -1,0 +1,37 @@
+.map {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.customMarker {
+  cursor: pointer;
+  font-size: 24px; /* bigger emoji */
+  text-shadow: 0 0 5px white;
+  user-select: none;
+}
+
+.popupCard {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 8px 12px;
+  max-width: 200px;
+}
+
+.popupCard h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.popupCard p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+@media screen and (min-width: 1000px) {
+  .map {
+    height: 65vh;
+    min-height: 600px;
+  }
+}

@@ -1,0 +1,138 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #00ff11;
+
+  --space-xs: 0.75rem;
+  --space-s: 1.75rem;
+  --space-m: 3.5rem;
+  --space-l: 7rem;
+  --space-xl: 14rem;
+}
+
+@font-face {
+  font-family: "Diatype";
+  src: url("../public/fonts/ABCDiatypeMonoVariable-Trial.ttf")
+    format("truetype");
+  font-style: normal;
+}
+
+html,
+body {
+  max-width: 100vw;
+}
+
+body {
+  font-family: "Diatype";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 300;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  font-family: "Diatype";
+  background: none;
+  font-size: unset;
+  font-weight: unset;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 1.75em;
+  line-height: 1.2em;
+}
+h2 {
+  font-weight: 300;
+  font-size: 1.25em;
+}
+p {
+  font-size: 1em;
+}
+
+.gradient {
+  bottom: 0;
+  width: 100%;
+  height: 15em;
+  background: linear-gradient(rgb(255, 255, 255), var(--primary));
+}
+
+.footer {
+  font-size: 0.8em;
+  letter-spacing: 0.05em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: var(--space-s);
+}
+
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}
+
+.mapboxgl-popup-content {
+  font-family: "Diatype";
+  background-color: var(--primary) !important;
+  border-radius: 0.8rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  max-width: 220px;
+  line-height: 1.4;
+  padding: 10px !important;
+}
+
+.mapboxgl-popup-content h3 {
+  margin: 0;
+  font-weight: 300;
+  font-size: 1em;
+}
+
+.mapboxgl-popup-content p {
+  margin: 0;
+  font-style: italic;
+  font-size: 1em;
+  opacity: 0.8;
+}
+
+.mapboxgl-popup-content span {
+  display: none;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: var(--swiper-pagination-bullet-opacity, 1);
+  background: var(--primary) !important;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: var(--primary) !important;
+  transform: scale(0.5);
+}
+
+@media screen and (min-width: 1000px) {
+  body,
+  p {
+    font-size: 1em;
+  }
+  h1, h2 {
+    font-weight: 300;
+    font-size: 2.5em;
+    line-height: 1.2em;
+  }
+  /* h2 {
+    font-weight: 300;
+    font-size: 1.25em;
+  } */
+}

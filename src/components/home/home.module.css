@@ -1,0 +1,310 @@
+.home__section {
+  margin-bottom: var(--space-m);
+}
+
+.motionPortals__intro {
+  background: linear-gradient(var(--primary) 10%, var(--background));
+}
+
+.section__intro {
+  padding: var(--space-s);
+  padding-top: 0;
+}
+
+.section__intro h1 {
+  margin-bottom: var(--space-s);
+}
+
+.imageSlider {
+  margin-bottom: var(--space-s);
+}
+
+.imageWrapper {
+  background: var(--primary);
+  height: 133vw;
+  overflow: hidden;
+}
+
+.imageWrapper img {
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
+  position: relative !important;
+}
+
+.caption {
+  padding: var(--space-xs) var(--space-s);
+  font-size: 0.8em;
+  letter-spacing: 0.05em;
+  display: flex;
+}
+
+.caption p {
+  min-width: 5em;
+}
+
+.text {
+  padding: 0 var(--space-s) var(--space-m);
+}
+
+.sculptureImage {
+  height: 60vw;
+  overflow: hidden;
+  width: 60vw;
+  display: flex;
+  justify-content: center;
+}
+
+.sculptureImage img {
+  height: 100%;
+  width: auto;
+}
+
+.sculptureCaption {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-m);
+}
+
+.locationList {
+  padding: var(--space-s);
+}
+
+.listRow {
+  display: flex;
+  color: var(--primary);
+  margin-bottom: 1em;
+}
+
+.locationNumber {
+  width: 40px;
+}
+
+.placesGradient {
+  z-index: 50;
+  position: absolute;
+  top: 125px;
+  width: 100%;
+  height: 7em;
+  background: linear-gradient(var(--primary), rgb(255, 255, 255, 0));
+}
+.projectsGradient {
+  z-index: -10;
+  position: absolute;
+  top: 15px;
+  width: 100%;
+  height: 7em;
+  background: linear-gradient(rgb(255, 255, 255, 0), var(--primary));
+}
+.contactGradient {
+  z-index: -10;
+  position: absolute;
+  top: 105px;
+  width: 100%;
+  height: 7em;
+  background: linear-gradient(var(--primary), rgb(255, 255, 255, 0));
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100%;
+  background: white;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-out;
+  z-index: 1000;
+  /* padding: var(--space-s) var(--space-xs); */
+  overflow-y: auto;
+}
+
+.overlayOpen {
+  transform: translateX(0);
+}
+
+.closeButton {
+  position: absolute;
+  top: var(--space-s);
+  right: var(--space-xs);
+  background: none;
+  border: none;
+  font-weight: 300;
+  font-size: 1.25em;
+  cursor: pointer;
+  z-index: 10000;
+  color: var(--primary);
+}
+
+.swiperContainer {
+  height: 90%;
+  /* padding: 2rem; */
+}
+
+.swiperSlide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.swiperImage {
+  height: 85vh;
+  margin-top: 5vh;
+  display: flex;
+  align-items: center;
+}
+
+.swiperImage img {
+  height: 400px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: contain;
+}
+
+.swiperInfo {
+  position: absolute;
+  top: var(--space-s);
+  padding: var(--space-s) var(--space-xs);
+  padding-top: 0;
+}
+
+.swiperLink {
+  position: absolute;
+  bottom: var(--space-s);
+  left: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  font-size: 1.75em;
+  line-height: 1.2em;
+  color: var(--primary);
+}
+
+.mainContent {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  flex-shrink: 0;
+}
+
+.pageWrapper {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scroll-behavior: smooth;
+}
+
+.landing__wrapper {
+  height: calc(var(--vh, 1vh) * 100 - 60px);
+  scroll-snap-align: start;
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.landing__videoWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.landing__video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.landing__overlayContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.sculptureLink {
+  color: var(--primary);
+  font-size: 1.75em;
+  line-height: 1.2em;
+  width: 100%;
+  text-align: center;
+  margin-bottom: var(--space-l);
+}
+
+@media screen and (min-width: 1000px) {
+  .imageWrapper {
+    height: auto;
+  }
+
+  .section__intro {
+    padding: var(--space-s);
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .sculptureImage {
+    height: 22vw;
+    width: auto;
+  }
+  .motionPortals__intro h1 {
+    margin-bottom: var(--space-l);
+  }
+  .imageSlider {
+    margin-top: var(--space-m);
+    margin-bottom: var(--space-m);
+  }
+
+  .imageSlider.skulpturen__imageSlider {
+    margin-top: 0;
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .text__top {
+    margin-bottom: var(--space-l);
+  }
+
+  .text p {
+    width: 1000px;
+  }
+  .home__section {
+    margin-bottom: var(--space-l);
+  }
+  .home__section.home__sculptures {
+    background: rgb(246, 246, 246);
+    padding: var(--space-m) 0;
+    margin-bottom: var(--space-l);
+  }
+  .sculptureLink {
+    margin-bottom: 0;
+  }
+  .placesGradient {
+    top: 148px;
+  }
+  .locationList {
+    margin-bottom: var(--space-l);
+  }
+  .projectsGradient {
+    top: 8px;
+  }
+}

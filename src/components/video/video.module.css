@@ -1,0 +1,21 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+ flex-direction: column ;
+ justify-content: space-between;
+}
+
+.videoContainer {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+.videoContainer iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
