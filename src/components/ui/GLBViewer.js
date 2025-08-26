@@ -6,13 +6,7 @@ import { Suspense } from "react";
 
 import RotatingModel from "./RotatingModel";
 
-export default function GLBViewer({
-  url,
-  zoom
-}: {
-  url: string;
-  zoom: number
-}) {
+export default function GLBViewer({ url, zoom }) {
   return (
     <div style={{ width: "100%", height: "80vh" }}>
       <Canvas camera={{ position: [0, 0, 3], fov: zoom }}>

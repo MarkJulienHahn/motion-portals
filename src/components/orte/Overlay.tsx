@@ -14,7 +14,7 @@ import styles from "@/components/home/home.module.css";
 import type { OrtType } from "@/types/types";
 
 import dynamic from "next/dynamic";
-const GLBViewer = dynamic(() => import("@/components/ui/GLBViewer"), {
+const GLBViewer = dynamic(() => import("@/components/ui/GLBViewer.js"), {
   ssr: false,
 });
 

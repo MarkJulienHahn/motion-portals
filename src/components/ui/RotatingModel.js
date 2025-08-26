@@ -6,13 +6,9 @@ export default function RotatingModel({
   url,
   scale = 1,
   position = [0, 0, 0],
-}: {
-  url: string;
-  scale?: number;
-  position?: [number, number, number];
 }) {
   const { scene } = useGLTF(url);
-  const ref = useRef<THREE.Object3D>(null);
+  const ref = useRef(null);
 
   useFrame(() => {
     if (ref.current) {
@@ -20,5 +16,7 @@ export default function RotatingModel({
     }
   });
 
-  return <primitive ref={ref} object={scene} scale={scale} position={position} />;
+  return (
+    <primitive ref={ref} object={scene} scale={scale} position={position} />
+  );
 }
