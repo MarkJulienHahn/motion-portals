@@ -145,6 +145,7 @@ export default function Overlay({
             }, 50);
           }
         }}
+        loop={true}
         className={styles.swiperContainer}
       >
         {orte.map((ort, i) => (
