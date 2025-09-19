@@ -150,7 +150,15 @@ export default function Overlay({
         {orte.map((ort, i) => (
           <SwiperSlide key={i} className={styles.swiperSlide}>
             <div
-              onClick={() => swiperRef.current?.slideNext()}
+              onClick={() => {
+                if (swiperRef.current) {
+                  if (swiperRef.current.activeIndex === orte.length - 1) {
+                    swiperRef.current.slideTo(0);
+                  } else {
+                    swiperRef.current.slideNext();
+                  }
+                }
+              }}
               style={{ cursor: "pointer" }}
             >
               {ort.glb?.asset.url ? (
