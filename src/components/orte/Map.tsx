@@ -47,6 +47,8 @@ export default function MapboxMap({
       attributionControl: false,
     });
 
+    console.log(orte);
+
     orte.forEach((ort, i) => {
       const { coordinates, artist, name } = ort;
 
@@ -57,33 +59,32 @@ export default function MapboxMap({
 
       if (isNaN(lng) || isNaN(lat)) return;
 
-      const el = document.createElement("div");
-      el.style.width = "30px";
-      el.style.height = "30px";
-      el.style.borderRadius = "50%";
-      el.style.backgroundColor = "var(--primary)";
+      // Marker element
+      const el = document.createElement("img");
+      el.src = ort.image?.asset?.url || "/default-marker.png"; // fallback
+      el.style.width = "auto";
+      el.style.height = "50px";
       el.style.cursor = "pointer";
-      el.style.display = "flex";
-      el.style.alignItems = "center";
-      el.style.justifyContent = "center";
-      el.style.color = "white";
-      el.style.fontSize = "14px";
-      el.style.fontWeight = "bold";
-
-      el.textContent = String(i + 1);
 
       el.addEventListener("click", () => {
         onSelectOrt?.(i);
       });
 
-      new mapboxgl.Marker(el)
-        .setLngLat([lng, lat])
-        .setPopup(
-          new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<h3>${artist ?? "Artist"}</h3><p>${name ?? "Location"}</p>`
-          )
-        )
-        .addTo(map);
+      // Create popup
+      const popup = new mapboxgl.Popup({
+        offset: 25,
+        closeButton: false,
+        closeOnClick: false,
+      }).setHTML(`<h3>${artist ?? "Artist"}</h3><p>${name ?? "Location"}</p>`);
+
+      // Marker
+      const marker = new mapboxgl.Marker(el).setLngLat([lng, lat]).addTo(map);
+
+      // Show popup on hover
+      el.addEventListener("mouseenter", () =>
+        popup.addTo(map).setLngLat([lng, lat])
+      );
+      el.addEventListener("mouseleave", () => popup.remove());
     });
 
     return () => map.remove();

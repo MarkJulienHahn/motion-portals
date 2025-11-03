@@ -38,7 +38,7 @@ export async function getHome() {
     text {
       de,
       en
-    }
+    },
   },
   anleitung {
     headline {
@@ -48,7 +48,14 @@ export async function getHome() {
     text {
       de,
       en
-    }
+    },
+    diagram {
+      asset->{
+        _id, 
+        url
+      },
+      alt,
+    },
   }
 }
 `);

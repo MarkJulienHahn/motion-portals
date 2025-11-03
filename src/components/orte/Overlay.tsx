@@ -4,9 +4,10 @@ import { useRef, useEffect, useState, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 import Image from "next/image";
 import styles from "@/components/home/home.module.css";
@@ -132,8 +133,9 @@ export default function Overlay({
         (X)
       </button>
       <Swiper
-        modules={[Pagination]}
+        modules={[Pagination, Navigation]}
         pagination
+        navigation
         initialSlide={activeIndex}
         spaceBetween={50}
         onSlideChange={handleSlideChange}

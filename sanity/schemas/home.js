@@ -184,6 +184,13 @@ export default {
             },
           ],
         },
+        {
+          name: "diagram",
+          type: "image",
+          fields: [
+            { name: "alt", type: "string" },
+          ],
+        },
       ],
     },
   ],

@@ -43,6 +43,7 @@ export type OrtType = {
 export type AnleitungType = {
     headline: { de: string; en: string };
     text: { de: TextBlock; en: TextBlock };
+    diagram: { asset: { url: string, _id: string }, alt: string }
 }
 
 export type ProjectSectionType = {

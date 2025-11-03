@@ -246,6 +246,17 @@
   margin-bottom: var(--space-l);
 }
 
+.schaubild {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.schaubild img {
+  max-width: 100%;
+  height: auto;
+}
+
 @media screen and (min-width: 1000px) {
   .imageWrapper {
     height: auto;
