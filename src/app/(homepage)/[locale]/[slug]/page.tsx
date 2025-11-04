@@ -1,8 +1,8 @@
-import Footer from "@/components/ui/Footer";
 import NavWrapper from "@/components/ui/NavWrapper";
 import { getVideos } from "../../../../../sanity/sanity-utils";
 
 import styles from "@/components/video/video.module.css";
+import Footer from "@/components/ui/Footer";
 
 type ParamsType = {
   slug: string;

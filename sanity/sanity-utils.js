@@ -1,14 +1,17 @@
-import { createClient } from "next-sanity";
+import { createClient } from "next-sanity"
 
 const client = createClient({
   projectId: "isggn3lk",
   dataset: "production",
   apiVersion: "2025-03-24",
   useCdn: false, // wieder rausnehmen für Production!
-});
+})
+
+const revalidateOptions = { next: { revalidate: 10 } }
 
 export async function getHome() {
-  return client.fetch(`*[_type == "home"][0]{
+  return client.fetch(
+    `*[_type == "home"][0]{
   motionPortals {
     headline {
       de,
@@ -58,11 +61,15 @@ export async function getHome() {
     },
   }
 }
-`);
+`,
+    {},
+    revalidateOptions,
+  )
 }
 
 export async function getOrte() {
-  return client.fetch(`*[_type == "orte"][0]{
+  return client.fetch(
+    `*[_type == "orte"][0]{
   orte[] {
     name,
     artist,
@@ -90,11 +97,15 @@ export async function getOrte() {
   }
 }
 
-`);
+`,
+    {},
+    revalidateOptions,
+  )
 }
 
 export async function getProject() {
-  return client.fetch(`*[_type == "project"][0]{
+  return client.fetch(
+    `*[_type == "project"][0]{
   intro {
     headline,
     text {
@@ -124,43 +135,62 @@ export async function getProject() {
     }
   }
 }
-`);
+`,
+    {},
+    revalidateOptions,
+  )
 }
 
 export async function getPeople() {
-  return client.fetch(`*[_type == "people"][0]{
+  return client.fetch(
+    `*[_type == "people"][0]{
   content {
     de,
     en
   }
-}`);
+}`,
+    {},
+    revalidateOptions,
+  )
 }
 
 export async function getLegals() {
-  return client.fetch(`*[_type == "legals"][0]{
+  return client.fetch(
+    `*[_type == "legals"][0]{
   text {
     de,
     en
   }
-}`);
+}`,
+    {},
+    revalidateOptions,
+  )
 }
 
 export async function getVideos() {
-  return client.fetch(`*[_type == "video"]{
+  return client.fetch(
+    `*[_type == "video"]{
   title {
     de,
     en
   }, 
   slug,
   id
-}`);
+}`,
+    {},
+    revalidateOptions,
+  )
 }
 
 export async function getContact() {
-  return client.fetch(`*[_type == "contact"][0]{
+  return client.fetch(
+    `*[_type == "contact"][0]{
   text {
     de,
     en
   }
-}`);
+}`,
+    {},
+    revalidateOptions,
+  )
 }
