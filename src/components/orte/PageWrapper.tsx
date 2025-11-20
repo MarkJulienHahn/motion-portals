@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -41,41 +40,15 @@ export default function PageWrapper({
   return (
     <main>
       <NavWrapper locale={locale} />
-      <section>
+      <section className={styles.map__wrapper}>
         <div className={styles.placesGradient} />
-        <div className={styles.section__intro} style={{ paddingBottom: "0" }}>
-          <h1 style={{ marginBottom: "0" }}>
-            ({locale === "de" ? "Orte" : "Location"})
-          </h1>
-        </div>
         <Map orte={orte} onSelectOrt={(i) => setSelectedOrtIndex(i)} />
-        <div className={styles.locationList}>
-          {orte.map((ort, i) => (
-            <div
-              className={styles.listRow}
-              key={i}
-              onClick={() => setSelectedOrtIndex(i)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className={styles.locationNumber}>({i + 1})</div>{" "}
-              <div>
-                {ort.artist} <br />
-                <em>{ort.name}</em>&nbsp;→
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className={styles.text}>
-          <PortableText value={locale === "de" ? text.de : text.en} />
-        </div>
       </section>
       <Overlay
         setSelectedOrtIndex={setSelectedOrtIndex}
         selectedOrtIndex={selectedOrtIndex}
         orte={orte}
       />
-      <Nav locale={locale} />
-      <Footer />
     </main>
   );
 }

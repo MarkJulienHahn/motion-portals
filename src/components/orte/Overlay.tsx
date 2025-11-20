@@ -71,9 +71,39 @@ export default function Overlay({
     setActiveIndex(swiper.activeIndex);
   };
 
+  const lastFullPathRef = useRef<string>(window.location.pathname);
+
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      const newPath = url.split("?")[0]; // ignore query params
+      const oldPath = lastFullPathRef.current.split("?")[0];
+
+      if (newPath !== oldPath) {
+        lastFullPathRef.current = url;
+      }
+    };
+
+    // next/navigation router doesn't expose events like old router,
+    // so we can use a workaround with `popstate` for back/forward detection
+    const onPopState = () => {
+      handleRouteChange(window.location.pathname + window.location.search);
+    };
+
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
   const handleClose = () => {
     setSelectedOrtIndex(null);
-    router.replace(window.location.pathname, { scroll: false });
+
+    const lastFullPath = lastFullPathRef.current.split("?")[0];
+
+    // Use replace if we’re already on the same path, else navigate back
+    if (window.location.pathname === lastFullPath) {
+      router.replace(lastFullPath, { scroll: false });
+    } else {
+      router.push(lastFullPath); // navigate to last full page
+    }
   };
 
   const lat = currentOrt?.coordinates?.latitude;
@@ -122,7 +152,9 @@ export default function Overlay({
     >
       {currentOrt && (
         <div className={styles.swiperInfo}>
-          <h2 className={styles.locationNumber}>({activeIndex + 1})</h2>
+          <h2 className={styles.locationNumber}>
+            ({activeIndex + 1}/{orte.length})
+          </h2>
           <h2>{currentOrt.artist}</h2>
           <h2>
             <em>{currentOrt.name}</em>
@@ -132,12 +164,18 @@ export default function Overlay({
       <button className={styles.closeButton} onClick={handleClose}>
         (X)
       </button>
+      <div className={styles.leftArrow} id="customPrev">
+        ←
+      </div>
+      <div className={styles.rightArrow} id="customNext">
+        →
+      </div>
       <Swiper
-        modules={[Pagination, Navigation]}
+        modules={[Navigation]}
         pagination
-        navigation
         initialSlide={activeIndex}
         spaceBetween={50}
+        allowTouchMove={false}
         onSlideChange={handleSlideChange}
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
@@ -148,20 +186,24 @@ export default function Overlay({
           }
         }}
         className={styles.swiperContainer}
+        navigation={{
+          prevEl: "#customPrev",
+          nextEl: "#customNext",
+        }}
       >
         {orte.map((ort, i) => (
           <SwiperSlide key={i} className={styles.swiperSlide}>
             <div
-              onClick={() => {
-                if (swiperRef.current) {
-                  if (swiperRef.current.activeIndex === orte.length - 1) {
-                    swiperRef.current.slideTo(0);
-                  } else {
-                    swiperRef.current.slideNext();
-                  }
-                }
-              }}
-              style={{ cursor: "pointer" }}
+            // onClick={() => {
+            //   if (swiperRef.current) {
+            //     if (swiperRef.current.activeIndex === orte.length - 1) {
+            //       swiperRef.current.slideTo(0);
+            //     } else {
+            //       swiperRef.current.slideNext();
+            //     }
+            //   }
+            // }}
+            // style={{ cursor: "pointer" }}
             >
               {ort.glb?.asset.url ? (
                 <>

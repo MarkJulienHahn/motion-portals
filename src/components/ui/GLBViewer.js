@@ -20,6 +20,8 @@ export default function GLBViewer({ url, zoom }) {
           enablePan={false}
           autoRotate={true}
           autoRotateSpeed={1}
+          minPolarAngle={0} 
+          maxPolarAngle={Math.PI / 2} 
         />
       </Canvas>
     </div>

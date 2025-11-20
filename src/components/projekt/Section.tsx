@@ -39,24 +39,25 @@ export default function Section({ content, locale }: SectionProps) {
         <div className={styles.imageSlider}>
           <Swiper
             spaceBetween={20}
-            slidesPerView={2}
-            centeredSlides={true}
+            slidesPerView={1}
             loop={true}
             onSwiper={(swiper) => (swiperRef.current = swiper)}
           >
             {content.images.map((image, i) => (
               <SwiperSlide key={i}>
                 <div
-                  className={styles.sculptureImage}
+                  className={styles.projectImage}
                   onClick={() => swiperRef.current?.slideNext()}
                 >
-                  <Image
-                    width={500}
-                    height={500}
-                    src={image.asset.url}
-                    alt={image.alt || "Motion Portals Stuttgart Image"}
-                    style={{ objectFit: "cover" }}
-                  />
+                  <div className={styles.projectImageInner}>
+                    <Image
+                      src={image.asset.url}
+                      alt={image.alt || "Motion Portals Stuttgart Image"}
+                      width={1200} // max width
+                      height={800} // max height
+                      style={{ objectFit: "contain", objectPosition: "center" }}
+                    />
+                  </div>
                 </div>
               </SwiperSlide>
             ))}

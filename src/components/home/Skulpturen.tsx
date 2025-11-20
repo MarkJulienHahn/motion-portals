@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import styles from "./home.module.css";
 
 import Image from "next/image";
@@ -27,6 +27,26 @@ type SkulpturenProps = {
 export default function Skulpturen({ locale, content, orte }: SkulpturenProps) {
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [slidesPerView, setSlidesPerView] = useState(1);
+
+  // Responsive slidesPerView
+  useEffect(() => {
+    const updateSlidesPerView = () => {
+      const width = window.innerWidth;
+      if (width >= 1000) setSlidesPerView(Math.min(5, orte.length));
+      else if (width >= 600) setSlidesPerView(Math.min(2, orte.length));
+      else setSlidesPerView(1);
+    };
+
+    updateSlidesPerView();
+    window.addEventListener("resize", updateSlidesPerView);
+    return () => window.removeEventListener("resize", updateSlidesPerView);
+  }, [orte.length]);
+
+  // Only enable loop if slidesPerView <= total slides
+  const canLoop = slidesPerView <= orte.length;
+
+  console.log(orte);
 
   return (
     <section className={`${styles.home__section} ${styles.home__sculptures}`}>
@@ -45,52 +65,51 @@ export default function Skulpturen({ locale, content, orte }: SkulpturenProps) {
       <div
         className={`${styles.imageSlider} ${styles.skulpturen__imageSlider}`}
       >
+        <div className={styles.leftArrow} id="customPrev">
+          ←
+        </div>
+        <div className={styles.rightArrow} id="customNext">
+          → 
+        </div>
+
         <Swiper
+          spaceBetween={50}
           modules={[Navigation]}
-          spaceBetween={20}
-          slidesPerView={1.5}
-          centeredSlides={true}
+          slidesPerView={1}
+          loop={true}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
-          onSlideChange={(swiper) => {
-            setActiveIndex(swiper.realIndex);
-          }}
-          navigation={true}
           breakpoints={{
-            1000: {
-              slidesPerView: 4.2,
-              spaceBetween: 10,
-            },
+            1000: { slidesPerView: 3.2, spaceBetween: 10 },
+            1200: { slidesPerView: 4.2, spaceBetween: 10 },
+          }}
+          navigation={{
+            prevEl: "#customPrev",
+            nextEl: "#customNext",
           }}
         >
           {orte.map((ort, i) => (
-            <SwiperSlide key={i}>
-              <div className={styles.sculptureImage}>
-                <Image
-                  width={500}
-                  height={500}
-                  src={ort.image.asset.url}
-                  alt={ort.image.alt || "Motion Portals Stuttgart Image"}
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
+            <SwiperSlide key={`${i}-${ort.image.asset.url}`}>
+              <Link href={`${locale}/orte?ort=${i + 1}`}>
+                <div className={styles.sculptureImage}>
+                  <Image
+                    src={ort.image.asset.url}
+                    alt={ort.image.alt || "Motion Portals Image"}
+                    fill
+                    unoptimized
+                    loading="eager"
+                  />
+                  <div className={styles.sculptureCaption}>
+                    <div>({i + 1})</div>
+                    <div>{orte[i].artist}</div>
+                    <div>
+                      <em>{orte[i].name}</em>
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
-
-      <div className={styles.sculptureCaption}>
-        <div>({activeIndex + 1})</div>
-        <div>{orte[activeIndex].artist}</div>
-        <div>
-          <em>{orte[activeIndex].name}</em>
-        </div>
-      </div>
-
-      <div className={styles.sculptureLink}>
-        <Link href={`${locale}/orte?ort=${activeIndex + 1}`}>
-          {" "}
-          (Zur Skulptur){" "}
-        </Link>
       </div>
     </section>
   );

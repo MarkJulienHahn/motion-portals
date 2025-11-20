@@ -11,6 +11,7 @@ import "swiper/css";
 import TypeAnimation from "../ui/TypeAnimation";
 import { Swiper as SwiperType } from "swiper";
 import { MotionPortalsType } from "@/types/types";
+import { Navigation } from "swiper/modules";
 
 type MotionPortalsProps = {
   locale: "de" | "en";
@@ -32,8 +33,15 @@ export default function MotionPortals({ locale, content }: MotionPortalsProps) {
       </div>
 
       <div className={styles.imageSlider}>
+        <div className={styles.leftArrow} id="customPrev">
+          ←
+        </div>
+        <div className={styles.rightArrow} id="customNext">
+          →
+        </div>
         <Swiper
           spaceBetween={20}
+          modules={[Navigation]}
           slidesPerView={1}
           loop={true}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
@@ -46,6 +54,10 @@ export default function MotionPortals({ locale, content }: MotionPortalsProps) {
               slidesPerView: 4.2,
               spaceBetween: 10,
             },
+          }}
+          navigation={{
+            prevEl: "#customPrev",
+            nextEl: "#customNext",
           }}
         >
           {content.images.map((image, i) => (
