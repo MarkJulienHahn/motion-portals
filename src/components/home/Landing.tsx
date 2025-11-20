@@ -30,28 +30,28 @@ export default function Landing() {
     return () => window.removeEventListener("resize", setVh);
   }, []);
 
-  useEffect(() => {
-    let isThrottled = false;
-    const scrollToSection = (e: WheelEvent) => {
-      if (isThrottled) return;
-      isThrottled = true;
+  // useEffect(() => {
+  //   let isThrottled = false;
+  //   const scrollToSection = (e: WheelEvent) => {
+  //     if (isThrottled) return;
+  //     isThrottled = true;
 
-      const direction = e.deltaY > 0 ? "down" : "up";
+  //     const direction = e.deltaY > 0 ? "down" : "up";
 
-      if (direction === "down") {
-        window.scrollTo({ top: window.innerHeight - 80, behavior: "smooth" });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+  //     if (direction === "down") {
+  //       window.scrollTo({ top: window.innerHeight - 80, behavior: "smooth" });
+  //     } else {
+  //       window.scrollTo({ top: 0, behavior: "smooth" });
+  //     }
 
-      setTimeout(() => {
-        isThrottled = false;
-      }, 800);
-    };
+  //     setTimeout(() => {
+  //       isThrottled = false;
+  //     }, 800);
+  //   };
 
-    window.addEventListener("wheel", scrollToSection);
-    return () => window.removeEventListener("wheel", scrollToSection);
-  }, []);
+  //   window.addEventListener("wheel", scrollToSection);
+  //   return () => window.removeEventListener("wheel", scrollToSection);
+  // }, []);
 
   return (
     <div

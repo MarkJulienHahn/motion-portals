@@ -63,7 +63,7 @@ export default function MapboxMap({
       const el = document.createElement("img");
       el.src = ort.image?.asset?.url || "/default-marker.png"; // fallback
       el.style.width = "auto";
-      el.style.height = "100px";
+      el.style.height = "75px";
       el.style.cursor = "pointer";
 
       el.addEventListener("click", () => {

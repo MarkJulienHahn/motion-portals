@@ -89,7 +89,7 @@
 .placesGradient {
   z-index: 50;
   position: absolute;
-  top: 125px;
+  top: 75px;
   width: 100%;
   height: 7em;
   background: linear-gradient(var(--primary), rgb(255, 255, 255, 0));
@@ -137,7 +137,7 @@
   background: none;
   border: none;
   font-weight: 300;
-  font-size: 2.5em;
+  font-size: 1.25em;
   cursor: pointer;
   z-index: 10000;
   color: var(--primary);
@@ -186,7 +186,7 @@
   width: 100vw;
   display: flex;
   justify-content: center;
-  font-size: 2.5em;
+  font-size: 1.25em;
   line-height: 1.2em;
   color: var(--primary);
 }
@@ -314,10 +314,13 @@
 }
 
 .projectImageInner img {
-  height: 100%
+  height: 100%;
 }
 
 @media screen and (min-width: 1000px) {
+  .placesGradient {
+    top: 125px;
+  }
   .landing__videoMobile {
     display: none;
   }
@@ -387,5 +390,9 @@
 
   .rightArrow {
     right: 25px;
+  }
+  .closeButton,
+  .swiperLink {
+    font-size: 2.5em;
   }
 }
