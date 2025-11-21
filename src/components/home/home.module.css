@@ -198,7 +198,7 @@
 }
 
 .pageWrapper {
-  scroll-snap-type: y mandatory;
+  /* scroll-snap-type: y mandatory; */
   overflow-y: scroll;
   height: 100vh;
   scroll-behavior: smooth;
@@ -206,7 +206,7 @@
 
 .landing__wrapper {
   height: calc(var(--vh, 1vh) * 100 - 60px);
-  scroll-snap-align: start;
+  /* scroll-snap-align: start; */
   position: relative;
   width: 100%;
   display: flex;

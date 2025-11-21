@@ -109,20 +109,22 @@ export default function Overlay({
   const lat = currentOrt?.coordinates?.latitude;
   const lng = currentOrt?.coordinates?.longitude;
 
-  const mapLink = (() => {
-    if (!lat || !lng) return null;
+  // const mapLink = (() => {
+  //   if (!lat || !lng) return null;
 
-    if (isMobile) {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      if (isIOS) {
-        return `https://maps.apple.com/?ll=${lat},${lng}`;
-      } else {
-        return `geo:${lat},${lng}`;
-      }
-    } else {
-      return `https://www.google.com/maps?q=${lat},${lng}`;
-    }
-  })();
+  //   if (isMobile) {
+  //     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  //     if (isIOS) {
+  //       return `https://maps.apple.com/?ll=${lat},${lng}`;
+  //     } else {
+  //       return `geo:${lat},${lng}`;
+  //     }
+  //   } else {
+  //     return `https://www.google.com/maps?q=${lat},${lng}`;
+  //   }
+  // })();
+
+  const mapLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : null;
 
   useLayoutEffect(() => {
     let scrollY = 0;
