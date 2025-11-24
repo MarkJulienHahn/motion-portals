@@ -19,13 +19,13 @@ const centerPoint: [number, number] = [9.179013722409223, 48.77844849017484];
 const subtractor = 0.005;
 
 const bounds = new mapboxgl.LngLatBounds(
-  [centerPoint[0] - subtractor, centerPoint[1] - subtractor],
-  [centerPoint[0] + subtractor, centerPoint[1] + subtractor]
+  [9.179013722409223 - 0.01, 48.77844849017484 - 0.005],
+  [9.179013722409223 + 0.01, 48.77844849017484 + 0.005]
 );
 
 export default function MapboxMap({
   center = centerPoint,
-  zoom = 13,
+  zoom = 15.5,
   orte,
   onSelectOrt,
 }: MapboxMapProps) {
@@ -37,17 +37,16 @@ export default function MapboxMap({
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/markjulienhahn/clilien5800ep01qpemgf4hgq",
-      zoom: 13.011188747676933,
+      zoom: zoom,
       center: centerPoint,
       maxBounds: bounds,
-      maxZoom: 17,
+      maxZoom: 18,
+      minZoom: 15,
       pitchWithRotate: false,
       dragRotate: false,
       touchZoomRotate: false,
       attributionControl: false,
     });
-
-    console.log(orte);
 
     orte.forEach((ort, i) => {
       const { coordinates, artist, name } = ort;
