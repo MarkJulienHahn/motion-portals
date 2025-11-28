@@ -55,7 +55,7 @@
 }
 
 .sculptureImage img {
-  max-height: 71%;
+  max-height: 60%;
   width: auto;
   margin-bottom: var(--space-m);
   object-fit: contain;
