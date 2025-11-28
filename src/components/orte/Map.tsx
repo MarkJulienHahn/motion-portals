@@ -44,7 +44,6 @@ export default function MapboxMap({
       minZoom: 12,
       pitchWithRotate: false,
       dragRotate: false,
-      touchZoomRotate: false,
       attributionControl: false,
     });
 
