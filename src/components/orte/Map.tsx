@@ -19,13 +19,13 @@ const centerPoint: [number, number] = [9.179013722409223, 48.77844849017484];
 const subtractor = 0.005;
 
 const bounds = new mapboxgl.LngLatBounds(
-  [9.179013722409223 - 0.01, 48.77844849017484 - 0.005],
-  [9.179013722409223 + 0.01, 48.77844849017484 + 0.005]
+  [9.179013722409223 - 0.02, 48.77844849017484 - 0.01],
+  [9.179013722409223 + 0.02, 48.77844849017484 + 0.01]
 );
 
 export default function MapboxMap({
   center = centerPoint,
-  zoom = 15.5,
+  zoom = 12.5,
   orte,
   onSelectOrt,
 }: MapboxMapProps) {
@@ -41,7 +41,7 @@ export default function MapboxMap({
       center: centerPoint,
       maxBounds: bounds,
       maxZoom: 18,
-      minZoom: 15,
+      minZoom: 12,
       pitchWithRotate: false,
       dragRotate: false,
       touchZoomRotate: false,
