@@ -23,17 +23,6 @@ export default function NavWrapper({ locale }: NavProps) {
     return str;
   }
 
-  useEffect(() => {
-    function setVh() {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
-    }
-    setVh();
-
-    window.addEventListener("resize", setVh);
-    return () => window.removeEventListener("resize", setVh);
-  }, []);
-
   // Disable page scroll when menu is open
   useLayoutEffect(() => {
     let scrollY = 0;
@@ -57,15 +46,37 @@ export default function NavWrapper({ locale }: NavProps) {
     };
   }, [showMenu]);
 
+  // Desktop-Navigation Items
+  const navItems = [
+    { href: "/", labelDe: "Home", labelEn: "Home" },
+    { href: "/orte", labelDe: "Orte", labelEn: "Locations" },
+    { href: "/projekt", labelDe: "Projekt", labelEn: "Project" },
+    { href: "/kontakt", labelDe: "Kontakt", labelEn: "Contact" },
+  ];
+
+  const normalizedPath = pathname.replace(/^\/(de|en)/, "") || "/";
+
   return (
     <>
       {/* DESKTOP */}
       <nav className={styles.desktop}>
-        <Link href="/">Home</Link>
-        <Link href="/orte">{locale == "de" ? "Orte" : "Locations"}</Link>
-        <Link href="/projekt">{locale == "de" ? "Projekt" : "Project"}</Link>
-        <Link href="/kontakt">{locale == "de" ? "Kontakt" : "Contact"}</Link>
+        {navItems.map(({ href, labelDe, labelEn }) => {
+          const isActive =
+            normalizedPath === href || normalizedPath.startsWith(href + "/");
+          const label = locale === "de" ? labelDe : labelEn;
+
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={isActive ? styles.active : undefined}
+            >
+              {label}
+            </Link>
+          );
+        })}
       </nav>
+
       {/* MOBILE */}
       <div className={styles.mobile}>
         <div className={styles.navButton}>

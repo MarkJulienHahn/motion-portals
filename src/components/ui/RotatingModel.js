@@ -1,25 +1,38 @@
-import { useRef, useEffect, useState } from "react";
-import { useFrame } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { useGLTF } from "@react-three/drei";
+import { useRef, useEffect } from "react";
 
-export default function RotatingModel({ url, scale = 1, position = [0,0,0] }) {
+export default function RotatingModel({ url, scale = 1, position = [0, 0, 0] }) {
+  const { scene } = useGLTF(url, true);
   const ref = useRef(null);
-  const [scene, setScene] = useState(null);
 
+  // Rotation
   useEffect(() => {
-    const loader = new GLTFLoader();
-    loader.setCrossOrigin("anonymous");
-    loader.load(
-      url,
-      gltf => setScene(gltf.scene),
-      undefined,
-      err => console.error("GLB load error:", err)
-    );
-  }, [url]);
+    const handle = () => {
+      if (ref.current) {
+        ref.current.rotation.y += 0.005;
+      }
+    };
+    const id = requestAnimationFrame(handle);
+    return () => cancelAnimationFrame(id);
+  }, []);
 
-  useFrame(() => { if(ref.current) ref.current.rotation.y += 0.005; });
-
-  if (!scene) return null; // no <div> inside canvas
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (scene) {
+        scene.traverse((obj) => {
+          if (obj.isMesh) {
+            obj.geometry.dispose();
+            if (Array.isArray(obj.material)) {
+              obj.material.forEach((m) => m.dispose());
+            } else if (obj.material) {
+              obj.material.dispose();
+            }
+          }
+        });
+      }
+    };
+  }, [scene]);
 
   return <primitive ref={ref} object={scene} scale={scale} position={position} />;
 }

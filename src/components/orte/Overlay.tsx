@@ -4,9 +4,8 @@ import { useRef, useEffect, useState, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import Image from "next/image";
@@ -15,9 +14,7 @@ import styles from "@/components/home/home.module.css";
 import type { OrtType } from "@/types/types";
 
 import dynamic from "next/dynamic";
-const GLBViewer = dynamic(() => import("@/components/ui/GLBViewer.js"), {
-  ssr: false,
-});
+const GLBViewer = dynamic(() => import("@/components/ui/GLBViewer.js"), { ssr: false });
 
 type OverlayProps = {
   orte: OrtType[];
@@ -26,11 +23,7 @@ type OverlayProps = {
   selectedOrtIndex: number | null | undefined;
 };
 
-export default function Overlay({
-  setSelectedOrtIndex,
-  selectedOrtIndex,
-  orte,
-}: OverlayProps) {
+export default function Overlay({ setSelectedOrtIndex, selectedOrtIndex, orte }: OverlayProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isMobile, setIsMobile] = useState(false);
   const swiperRef = useRef<any>(null);
@@ -46,106 +39,47 @@ export default function Overlay({
     }
   }, []);
 
-  // Update activeIndex and navigate Swiper when selectedOrtIndex changes (from parent)
+  // Slide Index Sync
   useEffect(() => {
-    if (selectedOrtIndex !== null && selectedOrtIndex !== undefined) {
+    if (selectedOrtIndex !== null && selectedOrtIndex !== undefined && activeIndex !== selectedOrtIndex) {
       setActiveIndex(selectedOrtIndex);
-      router.replace(`?ort=${selectedOrtIndex + 1}`, { scroll: false });
-
-      setTimeout(() => {
-        if (swiperRef.current && swiperRef.current.slideTo) {
-          swiperRef.current.slideTo(selectedOrtIndex, 0);
-        }
-      }, 100);
+      swiperRef.current?.slideTo(selectedOrtIndex, 0);
     }
-  }, [selectedOrtIndex, router]);
+  }, [selectedOrtIndex]);
 
-  // Update URL when slide changes within overlay
+  // Update URL when slide changes
   useEffect(() => {
-    if (selectedOrtIndex !== null && selectedOrtIndex !== undefined) {
+    if (selectedOrtIndex !== null && selectedOrtIndex !== undefined && activeIndex !== selectedOrtIndex) {
       router.replace(`?ort=${activeIndex + 1}`, { scroll: false });
     }
-  }, [activeIndex, selectedOrtIndex, router]);
+  }, [activeIndex]);
 
-  const handleSlideChange = (swiper: any) => {
-    setActiveIndex(swiper.activeIndex);
-  };
+  const handleSlideChange = (swiper: any) => setActiveIndex(swiper.activeIndex);
 
   const lastFullPathRef = useRef<string>("");
-
-  useEffect(() => {
-    lastFullPathRef.current = window.location.pathname;
-  }, []);
-
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      const newPath = url.split("?")[0]; // ignore query params
-      const oldPath = lastFullPathRef.current.split("?")[0];
-
-      if (newPath !== oldPath) {
-        lastFullPathRef.current = url;
-      }
-    };
-
-    // next/navigation router doesn't expose events like old router,
-    // so we can use a workaround with `popstate` for back/forward detection
-    const onPopState = () => {
-      handleRouteChange(window.location.pathname + window.location.search);
-    };
-
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
-  }, []);
+  useEffect(() => { lastFullPathRef.current = window.location.pathname; }, []);
 
   const handleClose = () => {
     setSelectedOrtIndex(null);
-
     const lastFullPath = lastFullPathRef.current.split("?")[0];
-
-    // Use replace if we’re already on the same path, else navigate back
-    if (window.location.pathname === lastFullPath) {
-      router.replace(lastFullPath, { scroll: false });
-    } else {
-      router.push(lastFullPath); // navigate to last full page
-    }
+    router.replace(lastFullPath, { scroll: false });
   };
 
   const lat = currentOrt?.coordinates?.latitude;
   const lng = currentOrt?.coordinates?.longitude;
+  const mapLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : null;
 
-  // const mapLink = (() => {
-  //   if (!lat || !lng) return null;
-
-  //   if (isMobile) {
-  //     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  //     if (isIOS) {
-  //       return `https://maps.apple.com/?ll=${lat},${lng}`;
-  //     } else {
-  //       return `geo:${lat},${lng}`;
-  //     }
-  //   } else {
-  //     return `https://www.google.com/maps?q=${lat},${lng}`;
-  //   }
-  // })();
-
-  const mapLink =
-    lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : null;
-
+  // Scroll Lock
   useLayoutEffect(() => {
     let scrollY = 0;
-
-    if (selectedOrtIndex !== null && selectedOrtIndex !== undefined) {
+    if (selectedOrtIndex !== null) {
       scrollY = window.scrollY;
       document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}px`;
       document.body.style.width = "100%";
     } else {
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
       window.scrollTo(0, scrollY);
     }
-
     return () => {
       document.body.style.position = "";
       document.body.style.top = "";
@@ -153,88 +87,49 @@ export default function Overlay({
     };
   }, [selectedOrtIndex]);
 
+  // Lazy load slides
+  const maxVisibleSlides = isMobile ? 1 : 3;
+  const shouldLoad = (index: number) => Math.abs(activeIndex - index) < maxVisibleSlides;
+
   return (
-    <div
-      className={`${styles.overlay} ${selectedOrtIndex !== null && styles.overlayOpen}`}
-    >
+    <div className={`${styles.overlay} ${selectedOrtIndex !== null && styles.overlayOpen}`}>
       {currentOrt && (
         <div className={styles.swiperInfo}>
-          <h2 className={styles.locationNumber}>
-            ({activeIndex + 1}/{orte.length})
-          </h2>
+          <h2 className={styles.locationNumber}>({activeIndex + 1}/{orte.length})</h2>
           <h2>{currentOrt.artist}</h2>
-          <h2>
-            <em>{currentOrt.name}</em>
-          </h2>
+          <h2><em>{currentOrt.name}</em></h2>
         </div>
       )}
-      <button className={styles.closeButton} onClick={handleClose}>
-        (X)
-      </button>
-      <div className={styles.leftArrow} id="customPrev">
-        ←
-      </div>
-      <div className={styles.rightArrow} id="customNext">
-        →
-      </div>
+      <button className={styles.closeButton} onClick={handleClose}>(X)</button>
+      <div className={styles.leftArrow} id="customPrev">←</div>
+      <div className={styles.rightArrow} id="customNext">→</div>
+
       <Swiper
         modules={[Navigation]}
-        pagination
         initialSlide={activeIndex}
         spaceBetween={50}
         allowTouchMove={false}
         onSlideChange={handleSlideChange}
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-          if (selectedOrtIndex !== null && selectedOrtIndex !== undefined) {
-            setTimeout(() => {
-              swiper.slideTo(selectedOrtIndex, 0);
-            }, 50);
-          }
-        }}
+        onSwiper={(swiper) => { swiperRef.current = swiper; }}
         className={styles.swiperContainer}
-        navigation={{
-          prevEl: "#customPrev",
-          nextEl: "#customNext",
-        }}
+        navigation={{ prevEl: "#customPrev", nextEl: "#customNext" }}
       >
         {orte.map((ort, i) => (
           <SwiperSlide key={i} className={styles.swiperSlide}>
-            <div
-            // onClick={() => {
-            //   if (swiperRef.current) {
-            //     if (swiperRef.current.activeIndex === orte.length - 1) {
-            //       swiperRef.current.slideTo(0);
-            //     } else {
-            //       swiperRef.current.slideNext();
-            //     }
-            //   }
-            // }}
-            // style={{ cursor: "pointer" }}
-            >
-              {ort.glb?.asset.url ? (
-                <>
-                  <GLBViewer url={ort.glb.asset.url} zoom={ort?.zoom} />
-                </>
-              ) : (
-                <div className={styles.swiperImage}>
-                  <Image
-                    src={ort.image.asset.url || "/placeholder.svg"}
-                    alt={ort.name}
-                    width={1000}
-                    height={1000}
-                  />
-                </div>
-              )}
-            </div>
+            {shouldLoad(i) ? (
+              <GLBViewer url={ort.glb.asset.url} zoom={ort?.zoom} />
+            ) : (
+              <div className={styles.swiperImage}>
+                <Image src={ort.image.asset.url || "/placeholder.svg"} alt={ort.name} width={1000} height={1000} />
+              </div>
+            )}
           </SwiperSlide>
         ))}
       </Swiper>
+
       {mapLink && (
         <div className={styles.swiperLink}>
-          <a href={mapLink} target="_blank" rel="noopener noreferrer">
-            (Weg anzeigen)
-          </a>
+          <a href={mapLink} target="_blank" rel="noopener noreferrer">(Weg anzeigen)</a>
         </div>
       )}
     </div>
