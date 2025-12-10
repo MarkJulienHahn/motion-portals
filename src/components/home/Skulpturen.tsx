@@ -46,8 +46,6 @@ export default function Skulpturen({ locale, content, orte }: SkulpturenProps) {
   // Only enable loop if slidesPerView <= total slides
   const canLoop = slidesPerView <= orte.length;
 
-  console.log(orte);
-
   return (
     <section className={`${styles.home__section} ${styles.home__sculptures}`}>
       <div className={styles.section__intro}>

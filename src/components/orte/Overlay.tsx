@@ -71,7 +71,11 @@ export default function Overlay({
     setActiveIndex(swiper.activeIndex);
   };
 
-  const lastFullPathRef = useRef<string>(window.location.pathname);
+  const lastFullPathRef = useRef<string>("");
+
+  useEffect(() => {
+    lastFullPathRef.current = window.location.pathname;
+  }, []);
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {
@@ -124,7 +128,8 @@ export default function Overlay({
   //   }
   // })();
 
-  const mapLink = lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : null;
+  const mapLink =
+    lat && lng ? `https://www.google.com/maps?q=${lat},${lng}` : null;
 
   useLayoutEffect(() => {
     let scrollY = 0;

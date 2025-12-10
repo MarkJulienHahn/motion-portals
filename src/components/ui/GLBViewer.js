@@ -12,7 +12,7 @@ export default function GLBViewer({ url, zoom }) {
       <Canvas camera={{ position: [0, 0, 3], fov: zoom }}>
         <ambientLight intensity={1} />
         <directionalLight position={[2, 2, 2]} />
-        <Suspense fallback={null}>
+        <Suspense fallback={<div>Loading 3D model...</div>}>
           <RotatingModel url={url} position={[0, -0.5, 0]} />
         </Suspense>
         <OrbitControls
@@ -20,8 +20,8 @@ export default function GLBViewer({ url, zoom }) {
           enablePan={false}
           autoRotate={true}
           autoRotateSpeed={1}
-          minPolarAngle={0} 
-          maxPolarAngle={Math.PI / 2} 
+          minPolarAngle={0}
+          maxPolarAngle={Math.PI / 2}
         />
       </Canvas>
     </div>
